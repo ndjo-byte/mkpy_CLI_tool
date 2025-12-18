@@ -39,4 +39,5 @@ source venv/bin/activate
 ```
 
 ## Why this exists
+
 I wanted a lean, transparent CLI tool that automates the creation of my Python projects. It optimises my agility and efficiency by reducing the delay between a project's inception and its implementation.
