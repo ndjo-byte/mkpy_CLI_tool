@@ -24,7 +24,7 @@ A lightweight CLI tool to bootstrap Python projects with:
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/mkpy.git
+git clone https://github.com/ndjo-byte/mkpy_CLI_tool.git
 cd mkpy
 chmod +x mkpy
 mv mkpy ~/bin/
