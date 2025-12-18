@@ -32,7 +32,7 @@ mv mkpy ~/bin/
 
 ## Usage 
 
-````bash
+```bash
 mkpy my_project
 cd my_project
 source venv/bin/activate
