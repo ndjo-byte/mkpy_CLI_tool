@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "$1" ]; then
+  echo "Usage: mkpy <project-name>"
+  exit 1
+fi
+
+PROJECT_NAME="$1"
+
+if [ -d "$PROJECT_NAME" ]; then
+  echo "Error: directory '$PROJECT_NAME' already exists"
+  exit 1
+fi
+
+echo "Creating Python project: $PROJECT_NAME"
+echo "Location: $(pwd)"
+
+mkdir "$PROJECT_NAME"
+cd "$PROJECT_NAME"
+
+echo "Creating virtual environment..."
+python3 -m venv venv
+
+echo "Creating main.py..."
+cat <<EOF > main.py
+def main():
+    print("Hello from $PROJECT_NAME")
+
+if __name__ == "__main__":
+    main()
+EOF
+
+echo "Creating requirements.txt..."
+touch requirements.txt
+
+echo "Creating .env..."
+cat <<EOF > .env
+# Environment variables
+# EXAMPLE_VAR=value
+EOF
+
+echo "Creating .gitignore..."
+cat <<EOF > .gitignore
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Environment
+.env
+
+# OS
+.DS_Store
+EOF
+
+# intitalising git and first commit 
+echo "Initialising git rpository..."
+git init 
+git add .
+git commit -m'initial commit from mkpy setup'
+
+# Create GitHub repo & push via SSH
+## Checking whether gh CLI is installed
+if ! command -v gh >/dev/null 2>&1; then
+	echo "GitHub CLI not found. Skipping remote creation."
+	echo
+	echo "To enbable GitHub integration"
+	echo "  Install Github CLI: brew install gh"
+	echo "  You can authenticate GitHub CLI (and optionally set up SSH) with: gh auth login"
+	echo
+	echo "Otherwise, after setup, you can create and push the repo with"
+	echo   "gh repo create $PROJECT_NAME --private --source=. --remote=origin --push"
+else
+	echo "Creating GitHub repository..."
+	gh repo create $PROJECT_NAME --private --source=. --remote=origin --push
+fi
+
+# Done
+echo
+echo "Project '$PROJECT_NAME' ready."
+echo
+echo "Next steps:"
+echo "  cd $PROJECT_NAME"
+echo "  source venv/bin/activate"
+echo "  git status"
+echo "  python main.py"
+
